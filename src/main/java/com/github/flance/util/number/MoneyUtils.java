@@ -6,7 +6,7 @@ import java.text.DecimalFormat;
 /**
  * 货币处理工具
  *
- * @authro zhangying
+ * @author zhangying
  * @date 2019/2/16 20:37
  */
 public class MoneyUtils {
