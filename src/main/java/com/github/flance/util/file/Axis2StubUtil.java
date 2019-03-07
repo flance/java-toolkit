@@ -18,7 +18,7 @@ public class Axis2StubUtil {
     /**
      * "java.lang.* " 对应的正则表达式
      */
-    public static final String[] langPackage = {"java.lang.reflect.", "java.lang.ref.", "java.lang.management.", "java.lang.invoke.", "java.lang.instrument.", "java.lang.annotation.", "java.lang."};
+    private static final String[] langPackage = {"java.lang.reflect.", "java.lang.ref.", "java.lang.management.", "java.lang.invoke.", "java.lang.instrument.", "java.lang.annotation.", "java.lang."};
 
     /**
      * 删除没有实际意义的代码行(所有空行、所有注释行)
@@ -32,8 +32,8 @@ public class Axis2StubUtil {
             //多行注释标志
             boolean multiLineFlag = false;
             List<String> out = new ArrayList<>();
-            for (String line : lines) {
-                line = line.trim();
+            for (String s : lines) {
+                String line = s.trim();
                 if (isInlineComment(line)) {
                     continue;
                 }
@@ -42,12 +42,15 @@ public class Axis2StubUtil {
                     multiLineFlag = true;
                     continue;
                 }
+                if (multiLineFlag && !line.endsWith("*/")) {
+                    continue;
+                }
                 if (multiLineFlag && line.endsWith("*/")) {
                     multiLineFlag = false;
                     continue;
                 }
 
-                out.add(simplifyLangPackage(line));
+                out.add(simplifyLangPackage(s));
             }
             FileUtils.writeLines(output, out);
         } catch (IOException e) {
@@ -61,7 +64,7 @@ public class Axis2StubUtil {
      * @param line 一行字符串
      * @return 单行注释为true，否则为false
      */
-    public static boolean isInlineComment(String line) {
+    private static boolean isInlineComment(String line) {
         if (!StringUtils.isBlank(line)) {
             line = line.trim();
             //标准的单行注释
@@ -82,7 +85,7 @@ public class Axis2StubUtil {
      * @param line 代码行
      * @return 简化后的代码行
      */
-    public static String simplifyLangPackage(String line) {
+    private static String simplifyLangPackage(String line) {
         for (String reg : langPackage) {
             line = line.replaceAll(reg, "");
         }
