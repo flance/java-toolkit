@@ -13,3 +13,6 @@
     
 - [DateFormatUtils.java](./src/main/java/com/github/flance/util/time/DateFormatUtils.java)  
     日期时间格式化工具，将日期按照指定格式转化为 `ISO` 标准显示方式，或者国内通用的常规显示格式。
+    
+-[Axis2StubUtil.java](./src/main/java/com/github/flance/util/file/Axis2StubUtil.java)
+    Axis2 生成的 `Webservice stub` 文件处理工具，可以删除所有毫无意义的单行和多行注释、删除所有空行、简化生成的代码中对 `java.lang.**` 的垃圾引用，尽最大努力压缩简化 `stub` 文件。
